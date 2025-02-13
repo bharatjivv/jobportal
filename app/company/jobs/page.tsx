@@ -2,6 +2,9 @@ import Link from "next/link";
 
 const CompanyDashboard = async () => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/jobs`);
+  if (!res.ok) {
+    throw new Error("Failed to fetch jobs");
+  }
   const jobs = await res.json();
 
   return (

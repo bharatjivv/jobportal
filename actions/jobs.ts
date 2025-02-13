@@ -10,8 +10,14 @@ export async function getJobById(id: number) {
 }
 
 export async function createJob(data: { title: string; description: string; category: string; location: string; salary: number }) {
-  return await prisma.job.create({ data });
-}
+    try {
+      const newJob = await prisma.job.create({ data });
+      return { success: true, job: newJob };
+    } catch (error) {
+      console.error("Error creating job:", error);
+      return { success: false, error: "Failed to create job." };
+    }
+  }
 
 export async function applyForJob(data: { jobId: string; name: string; email: string; resume: string; coverLetter: string }) {  
   return await prisma.application.create({ data });

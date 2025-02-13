@@ -1,75 +1,30 @@
 "use client";
+
 import { useState } from "react";
+import { createJob } from '../../../../actions/jobs'
+import { useRouter } from "next/navigation";
 
-const PostJobPage = () => {
-  const [formData, setFormData] = useState({
-    title: "",
-    description: "",
-    location: "",
-    salary: "",
-  });
+export default function NewJobPage() {
+  const router = useRouter();
+  const [form, setForm] = useState({ title: "", description: "", category: "", location: "", salary: "" });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    const res = await fetch("/api/jobs", {
-      method: "POST",
-      body: JSON.stringify(formData),
-      headers: { "Content-Type": "application/json" },
-    });
-
-    if (res.ok) {
-      alert("Job posted successfully!");
-      setFormData({ title: "", description: "", location: "", salary: "" });
-    } else {
-      alert("Error posting job");
-    }
-  };
+    await createJob({ ...form, salary: Number(form.salary) });
+    router.push("/company/jobs"); // Redirect to jobs dashboard
+  }
 
   return (
-    <div className="p-8 max-w-lg mx-auto">
-      <h1 className="text-2xl font-bold mb-4">Post a New Job</h1>
+    <main className="p-6 max-w-lg mx-auto">
+      <h1 className="text-2xl font-bold mb-4">Post a Job</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
-        <input
-          type="text"
-          name="title"
-          placeholder="Job Title"
-          value={formData.title}
-          onChange={handleChange}
-          className="border p-2 w-full rounded"
-        />
-        <textarea
-          name="description"
-          placeholder="Job Description"
-          value={formData.description}
-          onChange={handleChange}
-          className="border p-2 w-full rounded"
-        ></textarea>
-        <input
-          type="text"
-          name="location"
-          placeholder="Location"
-          value={formData.location}
-          onChange={handleChange}
-          className="border p-2 w-full rounded"
-        />
-        <input
-          type="text"
-          name="salary"
-          placeholder="Salary (optional)"
-          value={formData.salary}
-          onChange={handleChange}
-          className="border p-2 w-full rounded"
-        />
-        <button type="submit" className="bg-green-500 text-white px-4 py-2 rounded">
-          Post Job
-        </button>
+        <input type="text" placeholder="Job Title" className="w-full p-2 border rounded" value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} required />
+        <textarea placeholder="Description" className="w-full p-2 border rounded" value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} required />
+        <input type="text" placeholder="Category" className="w-full p-2 border rounded" value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} required />
+        <input type="text" placeholder="Location" className="w-full p-2 border rounded" value={form.location} onChange={(e) => setForm({ ...form, location: e.target.value })} required />
+        <input type="number" placeholder="Salary" className="w-full p-2 border rounded" value={form.salary} onChange={(e) => setForm({ ...form, salary: e.target.value })} required />
+        <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded">Post Job</button>
       </form>
-    </div>
+    </main>
   );
-};
-
-export default PostJobPage;
+}

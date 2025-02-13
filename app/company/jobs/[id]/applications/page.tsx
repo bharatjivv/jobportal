@@ -1,35 +1,25 @@
-import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { getApplicationsByJob } from '../../../../../actions/applications';
 
-const JobApplicationsPage = () => {
-  const { id } = useParams();
-  const [applications, setApplications] = useState([]);
-
-  useEffect(() => {
-    fetch(`/api/applications?jobId=${id}`)
-      .then((res) => res.json())
-      .then((data) => setApplications(data));
-  }, [id]);
+export default async function ApplicationsPage({ params }: { params: { id: string } }) {
+  const applications = await getApplicationsByJob(params.id);
 
   return (
-    <div className="p-8 max-w-2xl mx-auto">
-      <h1 className="text-2xl font-bold mb-4">Job Applications</h1>
+    <main className="p-6">
+      <h1 className="text-2xl font-bold mb-4">Applications for this Job</h1>
       {applications.length === 0 ? (
         <p>No applications yet.</p>
       ) : (
         <ul className="space-y-4">
-          {applications.map((app: any) => (
-            <li key={app.id} className="border p-4 rounded-lg">
-              <h2 className="text-xl font-semibold">{app.name}</h2>
-              <p>Email: {app.email}</p>
-              <p>Resume: <a href={app.resume} target="_blank" className="text-blue-600">View Resume</a></p>
-              <p>Cover Letter: {app.coverLetter}</p>
+          {applications.map((app) => (
+            <li key={app.id} className="p-4 border rounded-lg shadow">
+              <p><strong>Name:</strong> {app.name}</p>
+              <p><strong>Email:</strong> {app.email}</p>
+              <p><strong>Resume:</strong> <a href={app.resume} className="text-blue-600 hover:underline">View Resume</a></p>
+              <p><strong>Cover Letter:</strong> {app.coverLetter}</p>
             </li>
           ))}
         </ul>
       )}
-    </div>
+    </main>
   );
-};
-
-export default JobApplicationsPage;
+}
