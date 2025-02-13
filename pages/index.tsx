@@ -2,6 +2,7 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import Counter from "./components/Counter";
 import styles from "../styles/Home.module.css";
+import Hello from "./components/Hello";
 
 const Home: NextPage = () => {
   return (
@@ -16,9 +17,11 @@ const Home: NextPage = () => {
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
-
+        <div>
+          <Hello />
+        </div>
         <div className={styles.description}>
-          <Counter initialValue={5} />
+          <Counter initialValue={3} />
         </div>
       </main>
     </div>
