@@ -1,8 +1,9 @@
-"use client"; 
+
+"use client";
 
 import React from "react";
 
-export default function Home() {
+const Home = () => {
   return (
     <main className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
       <h1 className="text-4xl font-bold text-gray-900">Welcome to the Job Board</h1>
@@ -24,4 +25,6 @@ export default function Home() {
       </div>
     </main>
   );
-}
+};
+
+export default Home;
