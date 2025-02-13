@@ -1,6 +1,6 @@
 
 import Link from "next/link";
-import { getJobs } from "../../actions/jobs";
+import { getJobs } from '../../../actions/jobs';
 
 const CompanyDashboard = async () => {
   const jobs = await getJobs();
