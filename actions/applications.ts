@@ -4,7 +4,7 @@ import prisma from "../lib/prisma";
 export async function applyForJob(data: { jobId: string; name: string; email: string; resume: string; coverLetter: string }) {  
   return await prisma.application.create({
     data: {
-      jobId: parseInt(data.jobId), // Assuming jobId needs to be a database ID
+      jobId: data.jobId, 
       name: data.name,
       email: data.email,
       resume: data.resume,
@@ -14,5 +14,5 @@ export async function applyForJob(data: { jobId: string; name: string; email: st
 }
 
 export async function getApplicationsByJob(jobId: string) {
-  return await prisma.application.findMany({ where: { jobId: parseInt(jobId) } });
+  return await prisma.application.findMany({ where: { jobId: jobId } });
 }

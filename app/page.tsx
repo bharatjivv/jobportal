@@ -2,6 +2,19 @@
 import '../styles/globals.css';
 import React from "react";
 
+import { NextResponse } from "next/server";
+import prisma from '../lib/prisma';
+
+export async function GET() {
+  try {
+    const jobs = await prisma.job.findMany();
+    return NextResponse.json({ success: true, jobs });
+  } catch (error) {
+    console.error("Prisma Error:", error);
+    return NextResponse.json({ success: false, error: error.message });
+  }
+}
+
 function Home() {
   return (
     <main className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">

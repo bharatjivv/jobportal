@@ -11,7 +11,7 @@ export default function NewJobPage() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     await createJob({ ...form, salary: Number(form.salary) });
-    router.push("/company/jobs"); // Redirect to jobs dashboard
+    router.push("/company/jobs"); 
   }
 
   return (

@@ -2,7 +2,12 @@
 import prisma from "../lib/prisma";
 
 export async function getJobs() {
-  return await prisma.job.findMany();
+  try{
+    return await prisma.job.findMany();
+  }
+  catch(e){
+    console.log(e, 'e');
+  }
 }
 
 export async function getJobById(id: number) {
